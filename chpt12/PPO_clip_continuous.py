@@ -93,7 +93,7 @@ class PPOContinous:
             self.critic_optimizer.step() #更新价值函数
 
 
-#在车杆环境中训练TRPO
+
 num_episodes = 2000
 hidden_dim = 128
 gamma = 0.9
