@@ -51,7 +51,7 @@ class QValueNetContinuous(torch.nn.Module):
 
 "SAC算法主要代码，SAC使用两个Crititc网络Qw1和Qw2来使得Actor的训练更加稳定，而这两个Critic网络在训练时则各自需要一个目标价值网络，" \
 "因此，SAC算法一共用5个网络，分别是一个策略网络（Actor）、两个价值网络(Critic)和两个目标网络(Target Net)"
-class SACContinuous:
+class SAC:
     "处理连续动作的SAC算法"
     def __init__(self, state_dim, hidden_dim, action_dim, action_bound, actor_lr, critic_lr, alpha_lr, target_entropy, tau, gamma,device):
         self.actor = PolicyNetContinuous(state_dim, hidden_dim, action_dim, action_bound).to(device)#Actor网络
@@ -133,6 +133,7 @@ class SACContinuous:
 
 
 
+
 env_name = "Pendulum-v0"
 env = gym.make(env_name)
 state_dim = env.observation_space.shape[0]
@@ -159,19 +160,19 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 
 replay_buffer = rl_utils.ReplayBuffer(buffer_size)
-agent = SACContinuous(state_dim, hidden_dim, action_dim, action_bound, actor_lr, critic_lr, alpha_lr, target_entropy, tau, gamma, device)
+agent = SAC(state_dim, hidden_dim, action_dim, action_bound, actor_lr, critic_lr, alpha_lr, target_entropy, tau, gamma, device)
 return_list = rl_utils.train_off_policy_agent(env, agent, num_episodes, replay_buffer, minimal_size, batch_size)
 
 episodes_list = list(range(len(return_list)))
 plt.plot(episodes_list, return_list)
 plt.xlabel('Episodes')
 plt.ylabel('Returns')
-plt.title('SAC Continuous on {}'.format(env_name))
+plt.title('SAC  on {}'.format(env_name))
 plt.show()
 
 mv_return = rl_utils.moving_average(return_list, 21)
 plt.plot(episodes_list, mv_return)
 plt.xlabel('Episodes')
 plt.ylabel('Returns')
-plt.title('SAC Continuous on {}'.format(env_name))
+plt.title('SAC  on {}'.format(env_name))
 plt.show()
