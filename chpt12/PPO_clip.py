@@ -11,6 +11,7 @@ import chpt7.rl_utils as rl_utils
 import copy
 
 "受限定义策略网络PoliycNet，输入是某个状态，输出是该状态下的动作概率分布，这里采样在离散动作空间上的softmax()函数来实现一个科学系的多项分布"
+#AC网络架构中的Actor部分
 class PolicyNet(torch.nn.Module):
     def __init__(self, state_dim, hidden_dim, action_dim):
         super(PolicyNet, self).__init__()
